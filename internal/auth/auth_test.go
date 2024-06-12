@@ -27,12 +27,14 @@ func TestGetAPIKey(t *testing.T) {
 	}
 
 	for name, test := range tests {
-		actual, err := GetAPIKey(test.input)
-		if actual != test.expect {
-			t.Fatalf("%s: expected %v, but received %v", name, test.expect, actual)
-		}
-		if (err != nil && !test.hasErr) || (err == nil && test.hasErr) {
-			t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", name, test.hasErr, err)
-		}
+		t.Run(name, func(t *testing.T) {
+			actual, err := GetAPIKey(test.input)
+			if actual != test.expect {
+				t.Fatalf("%s: expected %v, but received %v", name, test.expect, actual)
+			}
+			if (err != nil && !test.hasErr) || (err == nil && test.hasErr) {
+				t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", name, test.hasErr, err)
+			}
+		})
 	}
 }
