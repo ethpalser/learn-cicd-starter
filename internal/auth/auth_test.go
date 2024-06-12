@@ -35,4 +35,6 @@ func TestGetAPIKey(t *testing.T) {
 			t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", name, test.hasErr, err)
 		}
 	}
+
+	some bad code
 }
