@@ -15,25 +15,24 @@ func TestGetAPIKey(t *testing.T) {
 		return header
 	}
 
-	tests := []struct {
-		name   string
+	tests := map[string]struct {
 		input  http.Header
 		expect string
 		hasErr bool
 	}{
-		{name: "ApiKey Auth", input: setupInput(pair{key: "Authorization", value: "ApiKey KeyValueHere"}), expect: "KeyValueHere", hasErr: false},
-		{name: "Basic Auth", input: setupInput(pair{key: "Authorization", value: "Basic Password"}), expect: "", hasErr: true},
-		{name: "No Auth", input: setupInput(), expect: "", hasErr: true},
-		{name: "ApiKey Auth without Key", input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true},
+		"apikey auth": {input: setupInput(pair{key: "Authorization", value: "ApiKey KeyValueHere"}), expect: "KeyValueHere", hasErr: false},
+		"basic auth":  {input: setupInput(pair{key: "Authorization", value: "Basic Password"}), expect: "", hasErr: true},
+		"no auth":     {input: setupInput(), expect: "", hasErr: true},
+		"missing key": {input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true},
 	}
 
-	for _, test := range tests {
+	for name, test := range tests {
 		actual, err := GetAPIKey(test.input)
 		if actual != test.expect {
-			t.Fatalf("%s: expected %v, but received %v", test.name, test.expect, actual)
+			t.Fatalf("%s: expected %v, but received %v", name, test.expect, actual)
 		}
 		if (err != nil && !test.hasErr) || (err == nil && test.hasErr) {
-			t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", test.name, test.hasErr, err)
+			t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", name, test.hasErr, err)
 		}
 	}
 }
