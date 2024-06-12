@@ -15,7 +15,7 @@ func TestGetAPIKey(t *testing.T) {
 		return header
 	}
 
-	tests := map[string]struct {
+	tests := map[string]struct{
 		input  http.Header
 		expect string
 		hasErr bool
@@ -23,10 +23,9 @@ func TestGetAPIKey(t *testing.T) {
 		"apikey auth": {input: setupInput(pair{key: "Authorization", value: "ApiKey KeyValueHere"}), expect: "KeyValueHere", hasErr: false},
 		"basic auth":  {input: setupInput(pair{key: "Authorization", value: "Basic Password"}), expect: "", hasErr: true},
 		"no auth":     {input: setupInput(), expect: "", hasErr: true},
-		"missing key": {input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true},
-	}
+		"missing key": {input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true},}
 
-	for name, test := range tests {
+	for name, test := range tests{
 		t.Run(name, func(t *testing.T) {
 			actual, err := GetAPIKey(test.input)
 			if actual != test.expect {
@@ -35,6 +34,5 @@ func TestGetAPIKey(t *testing.T) {
 			if (err != nil && !test.hasErr) || (err == nil && test.hasErr) {
 				t.Fatalf("%s: expected error occurrence to be %v, but received '%v'", name, test.hasErr, err)
 			}
-		})
-	}
+		})}
 }
