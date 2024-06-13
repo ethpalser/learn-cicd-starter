@@ -23,8 +23,7 @@ func TestGetAPIKey(t *testing.T) {
 		"apikey auth": {input: setupInput(pair{key: "Authorization", value: "ApiKey KeyValueHere"}), expect: "KeyValueHere", hasErr: false},
 		"basic auth":  {input: setupInput(pair{key: "Authorization", value: "Basic Password"}), expect: "", hasErr: true},
 		"no auth":     {input: setupInput(), expect: "", hasErr: true},
-		"missing key": {input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true},
-	}
+		"missing key": {input: setupInput(pair{key: "Authorization", value: "ApiKey"}), expect: "", hasErr: true}}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
